@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "etl-cli"
-version = "0.0.1"
-description = ""
+version = "0.1.0"
+description = "ETL CLI Toolbox. Performs common ETL tasks for standard industry and custom files in various formats."
 authors = ["eithery <eithery.pro@gmail.com>"]
 readme = "README.md"
 packages = [{include = "cli"}]
