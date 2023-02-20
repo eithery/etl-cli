@@ -2,12 +2,33 @@
 name = "etl-cli"
 version = "0.1.0"
 description = "ETL CLI Toolbox. Performs common ETL tasks for standard industry and custom files in various formats."
+license = "MIT"
 authors = ["eithery <eithery.pro@gmail.com>"]
 readme = "README.md"
-packages = [{include = "cli"}]
+keywords = ["etl"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.11"
+]
+packages = [{ include = "cli", from = "src" }]
 
 [tool.poetry.dependencies]
-python = "~=3.11"
+python = "~3.11"
+arrow = "~1.2"
+click = "~8.1"
+pandas = "~1.5"
+pyodbc = "~4.0"
+pyyaml = "~6.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "~7.2"
+
+[tool.poetry.scripts]
+etl = "cli.main:cli"
 
 [build-system]
 requires = ["poetry-core"]
