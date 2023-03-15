@@ -1,10 +1,6 @@
 import click
-import importlib.metadata
-import pprint as pp
+from cli import __version__
 from cli.app import App
-from cli.command import Command
-
-__version__ = importlib.metadata.version("etl-cli")
 
 
 @click.group(cls=App)
@@ -12,13 +8,11 @@ __version__ = importlib.metadata.version("etl-cli")
 @click.version_option(__version__, '-V', '--version', prog_name="ETL CLI Toolbox")
 @click.help_option('-h', '--help')
 def cli(ctx):
-    pp.pprint(type(ctx))
+    ctx.ensure_object(dict)
 
 
-@click.command(name='load', cls=Command)
-@click.argument("file_name", type=str)
+@cli.command(name='load', help='Loads file(s)')
+@click.argument('file_name', type=str)
+@click.help_option('-h', '--help')
 def load_file(file_name):
-    click.echo("Loading file")
-
-
-cli.add_command(load_file)
+    click.echo(f"Loading file '{file_name}'")
