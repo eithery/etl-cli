@@ -1,5 +1,5 @@
 #
-# (C) Eithery Lab 2023
+# (C) Eithery Lab, 2023
 # CLI package level primitives
 # Provides the app version and service functions for stdout/stderr colorful output
 #

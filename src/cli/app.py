@@ -1,5 +1,5 @@
 #
-# (C) Eithery Lab 2023
+# (C) Eithery Lab, 2023
 # Defines CLI application class
 # Overrides CLI error handling and help formatting
 #

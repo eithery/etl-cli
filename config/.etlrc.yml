@@ -1,0 +1,23 @@
+#
+# (C) Eithery Lab, 2023
+# Contains default application configuration settings
+#
+database:
+  dialect: mssql
+  driver: ODBC Driver 17 for SQL Server
+  host: localhost
+  instance_name: ''
+  db_name: etl_db
+
+  # DB connection type
+  # Available values: default | sspi | username
+  # Uses username/password DB credentials as default
+  # SSPI connection type is applicable to Windows only
+  connection: default
+
+
+# Default path to input files to be imported and loaded by the app
+inbox: ./data/inbox
+
+# Default path to templates location
+templates: ./data/templates

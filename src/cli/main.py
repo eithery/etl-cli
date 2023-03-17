@@ -1,5 +1,5 @@
 #
-# (C) Eithery Lab 2023
+# (C) Eithery Lab, 2023
 # The main CLI application entry point
 # Defines available CLI application commands and options
 #

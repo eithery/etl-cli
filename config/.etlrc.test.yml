@@ -1,0 +1,6 @@
+#
+# (C) Eithery Lab, 2023
+# Contains default application configuration settings for test environment
+#
+database:
+  db_name: etl_db_test
