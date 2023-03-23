@@ -14,7 +14,11 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.11"
 ]
-packages = [{ include = "cli", from = "src" }]
+packages = [
+    { include = "cli", from = "src" },
+    { include = "etl", from = "src"},
+    { include = "std", from = "src"}
+]
 
 [tool.poetry.dependencies]
 python = "~3.11"
@@ -25,6 +29,11 @@ pyyaml = "~6.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "~7.2"
+pytest-cov = "~4.0"
+pytest-describe = "~2.0"
+pytest-flake8 = "~1.1"
+pytest-spec = "~3.2"
+expects = "~0.9"
 
 [tool.poetry.scripts]
 etl = "cli.main:cli"
@@ -32,3 +41,9 @@ etl = "cli.main:cli"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "7.2"
+testpaths = [
+    "tests"
+]
