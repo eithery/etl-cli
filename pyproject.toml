@@ -28,12 +28,12 @@ pyodbc = "~4.0"
 pyyaml = "~6.0"
 
 [tool.poetry.group.test.dependencies]
+expects = "~0.9"
 pytest = "~7.2"
 pytest-cov = "~4.0"
 pytest-describe = "~2.0"
 pytest-flake8 = "~1.1"
 pytest-spec = "~3.2"
-expects = "~0.9"
 
 [tool.poetry.scripts]
 etl = "cli.main:cli"
@@ -47,3 +47,11 @@ minversion = "7.2"
 testpaths = [
     "tests"
 ]
+
+[tool.coverage.run]
+branch = true
+omit = ["tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
