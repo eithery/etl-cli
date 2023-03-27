@@ -3,9 +3,9 @@
 # Defines CLI application class
 # Overrides CLI error handling and help formatting
 #
-import cli
 import click
 import sys
+import etl.cli as cli
 
 
 class App(click.Group):

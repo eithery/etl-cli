@@ -15,15 +15,14 @@ classifiers = [
     "Programming Language :: Python :: 3.11"
 ]
 packages = [
-    { include = "cli", from = "src" },
-    { include = "etl", from = "src"},
-    { include = "std", from = "src"}
+    { include = "etl", from = "src" }
 ]
 
 [tool.poetry.dependencies]
 python = "~3.11"
 click = "~8.1"
 pandas = "~1.5"
+python-dotenv = "~1.0"
 pyodbc = "~4.0"
 pyyaml = "~6.0"
 
@@ -36,7 +35,7 @@ pytest-flake8 = "~1.1"
 pytest-spec = "~3.2"
 
 [tool.poetry.scripts]
-etl = "cli.main:cli"
+etl = "etl.cli.main:cli"
 
 [build-system]
 requires = ["poetry-core"]

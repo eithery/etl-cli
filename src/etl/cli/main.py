@@ -3,9 +3,10 @@
 # The main CLI application entry point
 # Defines available CLI application commands and options
 #
-import cli
 import click
-from cli.app import App
+import etl.cli as cli
+import etl.pipeline
+from .app import App
 
 
 @click.group(cls=App)
@@ -20,5 +21,6 @@ def cli(ctx):
 @click.argument('files', nargs=-1, required=False)
 @click.option('-t', '--template')
 @click.help_option('-h', '--help')
-def load_files(files, template):
-    click.echo(f"Loading files '{files}' with template '{template}'")
+def load_files(files: tuple[str, ...], template: str):
+    result = etl.pipeline.run(files, template)
+    print(result)

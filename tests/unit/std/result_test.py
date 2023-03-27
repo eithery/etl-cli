@@ -4,9 +4,9 @@
 #
 import pytest
 from expects import *
-from std.error import error
-from std.exceptions import InvalidResultException
-from std.result import Result, Ok, Err
+from etl.std.error import error
+from etl.std.exceptions import InvalidResultException
+from etl.std.result import Result, Ok, Err
 
 
 def describe_result():

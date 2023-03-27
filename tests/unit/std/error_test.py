@@ -4,7 +4,7 @@
 #
 import pytest
 from expects import *
-from std.error import Error, error
+from etl.std.error import Error, error
 
 
 def describe_error():

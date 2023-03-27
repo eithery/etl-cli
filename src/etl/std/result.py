@@ -7,7 +7,7 @@
 # or an error result Err(e) where e is an error of type E explaining what went wrong
 #
 from __future__ import annotations
-from std import T, E, R
+from etl.std import T, E, R
 from typing import Generic, Optional, Callable
 from .error import Error
 from .exceptions import InvalidResultException
