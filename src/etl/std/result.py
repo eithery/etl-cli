@@ -9,8 +9,8 @@
 from __future__ import annotations
 from etl.std import T, E, R
 from typing import Generic, Optional, Callable
-from .error import Error
-from .exceptions import InvalidResultException
+from etl.std.error import Error
+from etl.std.exceptions import InvalidResultException
 
 
 class Result(Generic[T, E]):

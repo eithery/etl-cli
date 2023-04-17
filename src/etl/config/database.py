@@ -1,66 +1,101 @@
+#
+# (C) Eithery Lab, 2023
+# Database configuration module
+# Contains database related configuration settings
+#
 import os
-from dotenv import load_dotenv
-from typing import Dict
-
-_DEFAULT_DB_DIALECT = 'mssql'
-_DEFAULT_ODBC_DRIVER = 'ODBC Driver 17 for SQL Server'
-_DEFAULT_DB_HOST = 'localhost'
-_DEFAULT_DB_INSTANCE_NAME = ''
-_DEFAULT_DB_NAME = 'etl_db'
-_DB_USER_VAR_NAME = 'ETL_DB_USER'
-_DB_PASSWORD_VAR_NAME = 'ETL_DB_PASSWORD'
+from typing import Optional, Self
+from etl.config.auth_type import AuthType
 
 
-class Database:
-    def __init__(self, settings: Dict[str, str]):
-        load_dotenv()
-        dialect = settings.get('dialect', _DEFAULT_DB_DIALECT)
-        driver = settings.get('driver', _DEFAULT_ODBC_DRIVER)
-        host = settings.get('host', _DEFAULT_DB_HOST)
-        instance_name = settings.get('instance_name', _DEFAULT_DB_INSTANCE_NAME)
-        db_name = settings.get('db_name', _DEFAULT_DB_NAME)
-        user_name = os.getenv(_DB_USER_VAR_NAME)
-        pwd = os.getenv(_DB_PASSWORD_VAR_NAME)
-        connection_type = settings.get('connection', 'default')
-        prefix = '' if connection_type.lower() == 'sspi' else f'{user_name}:{pwd}@'
-        self._connection_string = f'mssql+pyodbc://{prefix}{host}/{db_name}?driver={driver}'
+DEFAULT_DB_DIALECT = 'mssql'
+DEFAULT_ODBC_DRIVER = 'ODBC Driver 17 for SQL Server'
+DEFAULT_DB_HOST = 'localhost'
+DEFAULT_DB_NAME = 'etl_db'
+_SSPI_AUTH = ['sspi', 'windows']
+
+DB_HOST_ENV_VAR = 'ETL_DB_HOST'
+DB_INSTANCE_ENV_VAR = 'ETL_DB_INSTANCE'
+DB_NAME_ENV_VAR = 'ETL_DB_NAME'
+DB_USER_ENV_VAR = 'ETL_DB_USER'
+DB_PWD_ENV_VAR = 'ETL_DB_PWD'
+DB_AUTH_TYPE_ENV_VAR = 'DB_AUTH_TYPE'
 
 
-    @property
-    def dialect(self):
-        return _DB_DIALECT
-
-
-    @property
-    def driver(self):
-        return _ODBC_DRIVER
-
-
-    @property
-    def host(self):
-        return self._host or _DEFAULT_DB_HOST
+class DbConfiguration:
+    def __init__(
+        self,
+        dialect: str = None,
+        driver: str = None,
+        host: str = None,
+        instance_name: str = '',
+        db_name: str = None,
+        connection_type: Optional[str] = None,
+        uid: str = None,
+        pwd: str = None
+    ):
+        self._dialect = dialect or DEFAULT_DB_DIALECT
+        self._driver = driver or DEFAULT_ODBC_DRIVER
+        self._host = host or DEFAULT_DB_HOST
+        self._instance_name = instance_name or ''
+        self._db_name = db_name or DEFAULT_DB_NAME
+        self._connection_type = connection_type or 'default'
+        self._uid = uid
+        self._pwd = pwd
 
 
     @property
-    def instance_name(self):
-        return _DB_INSTANCE_NAME
+    def host(self) -> str:
+        return f'{self._host}\\{self._instance_name}' if self._instance_name else self._host
 
 
     @property
-    def db_name(self):
-        return _DB_NAME
+    def db_name(self) -> str:
+        return self._db_name
 
 
     @property
-    def user_name(self):
-        return self._user_name
+    def auth_type(self) -> AuthType:
+        return AuthType.SSPI if self._connection_type in _SSPI_AUTH else AuthType.DEFAULT
 
 
     @property
-    def db_password(self):
-        return self._password
+    def uid(self) -> str:
+        return self._uid
 
 
     @property
-    def connection_string(self):
-        return f'mssql+pyodbc://{prefix}{self.host}/{self.db_name}?driver={self.driver}'
+    def pwd(self) -> str:
+        return self._pwd
+
+
+    @property
+    def connection_string(self) -> str:
+        prefix = '' if self.auth_type == AuthType.SSPI else f'{self._uid}:{self._pwd}@'
+        return f'mssql+pyodbc://{prefix}{self.host}/{self.db_name}?driver={self._driver}'
+
+
+    def merge(self, params: Optional[dict[str, str]]) -> Self:
+        return DbConfiguration(
+            dialect = params.get('dialect', self._dialect),
+            driver = params.get('driver', self._driver),
+            host = params.get('host', self._host),
+            instance_name = params.get('instance_name', self._instance_name),
+            db_name = params.get('db_name', self._db_name),
+            connection_type = params.get('connection', self._connection_type),
+            uid = self._uid,
+            pwd = self._pwd
+        ) if params else self
+
+
+    def apply_env_vars(self) -> Self:
+        return DbConfiguration(
+            dialect = self._dialect,
+            driver = self._driver,
+            host = os.getenv(DB_HOST_ENV_VAR, self._host),
+            instance_name = os.getenv(DB_INSTANCE_ENV_VAR, self._instance_name),
+            db_name = os.getenv(DB_NAME_ENV_VAR, self._db_name),
+            connection_type = os.getenv(DB_AUTH_TYPE_ENV_VAR, self._connection_type),
+            uid = os.getenv(DB_USER_ENV_VAR, self._uid),
+            pwd = os.getenv(DB_PWD_ENV_VAR, self._pwd)
+        )

@@ -5,7 +5,7 @@ description = "ETL CLI Toolbox. Performs common ETL tasks for standard industry 
 license = "MIT"
 authors = ["eithery <eithery.pro@gmail.com>"]
 readme = "README.md"
-keywords = ["etl"]
+keywords = ["etl", "file load", "interfaces", "pershing"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "License :: OSI Approved :: MIT License",
@@ -25,6 +25,7 @@ pandas = "~1.5"
 python-dotenv = "~1.0"
 pyodbc = "~4.0"
 pyyaml = "~6.0"
+sqlalchemy = "~1.4"
 
 [tool.poetry.group.test.dependencies]
 expects = "~0.9"
