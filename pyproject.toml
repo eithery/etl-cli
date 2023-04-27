@@ -19,7 +19,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "~3.11"
+python = "^3.11"
 click = "~8.1"
 pandas = "~1.5"
 python-dotenv = "~1.0"
@@ -29,11 +29,15 @@ sqlalchemy = "~1.4"
 
 [tool.poetry.group.test.dependencies]
 expects = "~0.9"
+flake8 = "~6.0"
+mypy = "~1.2"
 pytest = "~7.2"
 pytest-cov = "~4.0"
 pytest-describe = "~2.0"
 pytest-flake8 = "~1.1"
+pytest-randomly = "~3.12"
 pytest-spec = "~3.2"
+tox = "~4.5"
 
 [tool.poetry.scripts]
 etl = "etl.cli.main:cli"
@@ -44,12 +48,14 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 minversion = "7.2"
+addopts = "--strict-markers"
 testpaths = [
     "tests"
 ]
 
 [tool.coverage.run]
 branch = true
+source = ["etl"]
 omit = ["tests/*"]
 
 [tool.coverage.report]
