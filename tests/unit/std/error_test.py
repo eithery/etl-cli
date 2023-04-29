@@ -3,7 +3,7 @@
 # Contains unit tests for error module
 #
 import pytest
-from expects import *
+from expects import expect, have_property, be, equal
 from etl.std.error import Error, error
 
 

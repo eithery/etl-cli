@@ -3,13 +3,15 @@
 # Defines CLI application class
 # Overrides CLI error handling and help formatting
 #
+# mypy: allow_subclassing_any
+#
 import click
 import sys
 import etl.cli as cli
 from typing import Any
 
 
-class App(click.Group):     # type: ignore[misc]
+class App(click.Group):
     group_class = type
 
     def main(self, *args: Any, **kwargs: Any) -> None:

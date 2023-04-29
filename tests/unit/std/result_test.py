@@ -3,7 +3,7 @@
 # Contains unit tests for result module
 #
 import pytest
-from expects import *
+from expects import expect, be, equal, be_true, be_false, be_none, raise_error
 from etl.std.error import error
 from etl.std.exceptions import InvalidResultException
 from etl.std.result import Result, Ok, Err

@@ -9,14 +9,14 @@
 from __future__ import annotations
 from etl.std import T, R
 from typing import Generic, Optional, Callable, cast
-from etl.std.error import Error
+from etl.std.error import Error, error as to_error
 from etl.std.exceptions import InvalidResultException
 
 
 class Result(Generic[T]):
-    def __init__(self, value: Optional[T] = None, error: Optional[Error] = None):
+    def __init__(self, value: Optional[T] = None, error: Error | str | None = None):
         self._value = value
-        self._error = error
+        self._error = _convert_to_error(error)
         if isinstance(value, Error):
             self._value = None
             self._error = value
@@ -73,9 +73,17 @@ class Result(Generic[T]):
 
 
 
+
 def Ok(value: Optional[T] = None) -> Result[T]:
     return Result(value)
 
 
 def Err(error: Error) -> Result[T]:
     return Result(error = error)
+
+
+# private
+
+def _convert_to_error(error: Error | str | None) -> Optional[Error]:
+    err = to_error(error) if error and isinstance(error, str) else error
+    return cast(Optional[Error], err)
