@@ -14,7 +14,7 @@ from etl.std.result import Result, Ok
 def load(file_path: Path, verbose: bool = False) -> Result[AppConfigSettings]:
     if file_path.is_file():
         with open(file_path) as infile:
-            settings: AppConfigSettings = yaml.load(infile, Loader = yaml.FullLoader)
+            settings: AppConfigSettings = yaml.safe_load(infile)
             if verbose:
                 cli.echo(f"'{file_path.absolute()}' LOADED")
             return Ok(settings)
