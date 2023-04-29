@@ -6,15 +6,17 @@
 import yaml
 import etl.cli as cli
 from pathlib import Path
-from etl.std.result import Result, Ok, Err
+from etl.config.settings import AppConfigSettings
+from etl.std.error_results import FileDoesNotExistError
+from etl.std.result import Result, Ok
 
 
-def load(file_path: Path, verbose: bool=False) -> Result[dict[str, str], str]:
+def load(file_path: Path, verbose: bool=False) -> Result[AppConfigSettings]:
     if file_path.is_file():
         with open(file_path) as infile:
-            result = yaml.load(infile, Loader=yaml.FullLoader) or {}
+            settings: AppConfigSettings = yaml.load(infile, Loader=yaml.FullLoader)
             if verbose:
                 cli.echo(f"'{file_path.absolute()}' LOADED")
-            return Ok(result)
+            return Ok(settings)
 
-    return Err(f"The file '{file_path}' doesn't exist")
+    return FileDoesNotExistError(file_path)

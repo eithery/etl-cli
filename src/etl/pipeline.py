@@ -11,7 +11,7 @@ from etl.std.result import Result, Ok
 from etl.models.file_parsing_result import FileParsingResult
 
 
-def run(files: tuple[str, ...], template: str, config_dir: Optional[str]=None, verbose: bool=False) -> Result:
+def run(files: tuple[str, ...], template: str, config_dir: Optional[str]=None, verbose: bool=False) -> Result[None]:
     if verbose:
         cli.echo(f'Current environment: {etl.current_environment()}')
         cli.echo('Load configuration:')

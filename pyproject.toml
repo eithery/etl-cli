@@ -40,7 +40,7 @@ pytest-spec = "~3.2"
 tox = "~4.5"
 
 [tool.poetry.scripts]
-etl = "etl.cli.main:cli"
+etl = "etl.cli.main:main"
 
 [build-system]
 requires = ["poetry-core"]
@@ -64,12 +64,21 @@ skip_covered = true
 
 [tool.mypy]
 python_version = 3.11
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
 disallow_untyped_defs = true
+follow_imports = "normal"
+ignore_missing_imports = true
 namespace_packages = true
+no_implicit_reexport = true
 no_implicit_optional = true
 pretty = true
 show_error_codes = true
 show_error_context = true
+strict_equality = true
+strict_optional = true
+warn_redundant_casts = true
 warn_return_any = true
 warn_unused_configs = true
 warn_unused_ignores = true

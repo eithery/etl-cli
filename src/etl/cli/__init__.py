@@ -5,6 +5,8 @@
 #
 import click
 import importlib.metadata
+from typing import Optional
+
 
 _ERROR_COLOR = 'red'
 _WARNING_COLOR = 'yellow'
@@ -15,25 +17,25 @@ APP_DISPLAY_NAME = 'ETL CLI Toolbox'
 __version__ = importlib.metadata.version('etl-cli')
 
 
-def error(message: str, prefix: str='Error:', prepend_line: bool=True):
+def error(message: str, prefix: Optional[str]='Error:', prepend_line: bool=True) -> None:
     _display_message(message, prefix, color=_ERROR_COLOR, prepend_line=prepend_line)
 
 
-def warning(message: str, prefix: str='Warning:', prepend_line: bool=False):
+def warning(message: str, prefix: Optional[str]='Warning:', prepend_line: bool=False) -> None:
     _display_message(message, prefix, color=_WARNING_COLOR, prepend_line=prepend_line)
 
 
-def success(message: str, prefix: str=None, prepend_line: bool=True):
+def success(message: str, prefix: Optional[str]=None, prepend_line: bool=True) -> None:
     _display_message(message, prefix, color=_SUCCESS_COLOR, prepend_line=prepend_line)
 
 
-def echo(message: str):
+def echo(message: str) -> None:
     click.echo(message)
 
 
 # private
 
-def _display_message(message: str, prefix: str, color: str, prepend_line: bool=False):
+def _display_message(message: str, prefix: Optional[str], color: str, prepend_line: bool=False) -> None:
     if prepend_line:
         click.echo()
     combined_message = ' '.join(filter(None, [prefix, message]))

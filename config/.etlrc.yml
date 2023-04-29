@@ -17,7 +17,9 @@ database:
 
 
 # Default path to input files to be imported and loaded by the app
-inbox: ./data/inbox
+inbox:
+  - ./data/inbox
 
 # Default path to templates location
-templates: ./data/templates
+templates:
+  - ./data/templates

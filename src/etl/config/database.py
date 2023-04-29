@@ -3,9 +3,11 @@
 # Database configuration module
 # Contains database related configuration settings
 #
+from __future__ import annotations
 import os
-from typing import Optional, Self
+from typing import Optional
 from etl.config.auth_type import AuthType
+from etl.config.settings import DbConfigSettings
 
 
 DEFAULT_DB_DIALECT = 'mssql'
@@ -25,14 +27,14 @@ DB_AUTH_TYPE_ENV_VAR = 'DB_AUTH_TYPE'
 class DbConfiguration:
     def __init__(
         self,
-        dialect: str = None,
-        driver: str = None,
-        host: str = None,
+        dialect: Optional[str] = None,
+        driver: Optional[str] = None,
+        host: Optional[str] = None,
         instance_name: str = '',
-        db_name: str = None,
+        db_name: Optional[str] = None,
         connection_type: Optional[str] = None,
-        uid: str = None,
-        pwd: str = None
+        uid: Optional[str] = None,
+        pwd: Optional[str] = None
     ):
         self._dialect = dialect or DEFAULT_DB_DIALECT
         self._driver = driver or DEFAULT_ODBC_DRIVER
@@ -60,12 +62,12 @@ class DbConfiguration:
 
 
     @property
-    def uid(self) -> str:
+    def uid(self) -> Optional[str]:
         return self._uid
 
 
     @property
-    def pwd(self) -> str:
+    def pwd(self) -> Optional[str]:
         return self._pwd
 
 
@@ -75,7 +77,7 @@ class DbConfiguration:
         return f'mssql+pyodbc://{prefix}{self.host}/{self.db_name}?driver={self._driver}'
 
 
-    def merge(self, params: Optional[dict[str, str]]) -> Self:
+    def merge(self, params: Optional[DbConfigSettings]) -> DbConfiguration:
         return DbConfiguration(
             dialect = params.get('dialect', self._dialect),
             driver = params.get('driver', self._driver),
@@ -88,7 +90,7 @@ class DbConfiguration:
         ) if params else self
 
 
-    def apply_env_vars(self) -> Self:
+    def apply_env_vars(self) -> DbConfiguration:
         return DbConfiguration(
             dialect = self._dialect,
             driver = self._driver,

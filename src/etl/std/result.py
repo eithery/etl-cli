@@ -7,19 +7,19 @@
 # or an error result Err(e) where e is an error of type E explaining what went wrong
 #
 from __future__ import annotations
-from etl.std import T, E, R
-from typing import Generic, Optional, Callable
+from etl.std import T, R
+from typing import Generic, Optional, Callable, cast
 from etl.std.error import Error
 from etl.std.exceptions import InvalidResultException
 
 
-class Result(Generic[T, E]):
-    def __init__(self, value: Optional[T]=None, error: Optional[E]=None):
+class Result(Generic[T]):
+    def __init__(self, value: Optional[T] = None, error: Optional[Error] = None):
         self._value = value
         self._error = error
         if isinstance(value, Error):
-            self._error = value
             self._value = None
+            self._error = value
 
 
     @property
@@ -38,30 +38,30 @@ class Result(Generic[T, E]):
 
     def expect(self, message: str) -> T:
         if self.is_ok:
-            return self._value
+            return cast(T, self._value)
         raise InvalidResultException(message)
 
 
-    def ok(self):
+    def ok(self) -> Optional[T]:
         return self._value if self.is_ok else None
 
 
-    def err(self):
+    def err(self) -> Optional[Error]:
         return self._error if self.is_error else None
 
 
-    def match(self, ok: Callable[[T], R], err: Callable[[E], R]) -> R:
-        return ok(self._value) if self.is_ok else err(self._error)
+    def match(self, ok: Callable[[T], R], err: Callable[[Error], R]) -> R:
+        return ok(cast(T, self._value)) if self.is_ok else err(cast(Error, self._error))
 
 
-    def map(self, func: Callable[[T], R]) -> Result[R, E]:
+    def map(self, func: Callable[[T], R]) -> Result[R]:
         return self.match(
             ok = lambda v : Ok(func(v)),
             err = lambda e: Err(e)
         )
 
 
-    def bind(self, func: Callable[[T], Result[R, E]]) -> Result[R, E]:
+    def bind(self, func: Callable[[T], Result[R]]) -> Result[R]:
         return self.match(
             ok = lambda v : func(v),
             err = lambda e : Err(e)
@@ -73,9 +73,9 @@ class Result(Generic[T, E]):
 
 
 
-def Ok(value: Optional[T]=None) -> Result[T, E]:
+def Ok(value: Optional[T] = None) -> Result[T]:
     return Result(value)
 
 
-def Err(error: E) -> Result[T, E]:
-    return Result(error=error)
+def Err(error: Error) -> Result[T]:
+    return Result(error = error)
