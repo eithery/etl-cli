@@ -4,6 +4,7 @@
 #
 from enum import Enum
 
+
 class AuthType(Enum):
     DEFAULT = 0
     USERNAME = 1

@@ -56,20 +56,20 @@ class Result(Generic[T]):
 
     def map(self, func: Callable[[T], R]) -> Result[R]:
         return self.match(
-            ok = lambda v : Ok(func(v)),
+            ok = lambda v: Ok(func(v)),
             err = lambda e: Err(e)
         )
 
 
     def bind(self, func: Callable[[T], Result[R]]) -> Result[R]:
         return self.match(
-            ok = lambda v : func(v),
-            err = lambda e : Err(e)
+            ok = lambda v: func(v),
+            err = lambda e: Err(e)
         )
 
 
     def __repr__(self) -> str:
-        return self.match(lambda v : f'Ok({v})', lambda e : f'Err({e})')
+        return self.match(lambda v: f'Ok({v})', lambda e: f'Err({e})')
 
 
 

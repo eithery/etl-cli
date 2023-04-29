@@ -71,8 +71,6 @@ class AppConfiguration:
             ._apply_env_vars()
 
 
-    # private
-
     def _load_from_home(self, verbose: bool) -> AppConfiguration:
         return self._load(Path.home(), verbose = verbose)
 
@@ -92,7 +90,7 @@ class AppConfiguration:
 
     def _load_env_config(self, config_path: Path, verbose: bool) -> AppConfiguration:
         env = etl.current_environment()
-        if env in  DEV_ENV_NAMES:
+        if env in DEV_ENV_NAMES:
             return self._load(config_path, DEV_CONFIG_FILE_NAME, verbose)
         if env in TEST_ENV_NAMES:
             return self._load(config_path, TEST_CONFIG_FILE_NAME, verbose)
@@ -101,11 +99,16 @@ class AppConfiguration:
         return self
 
 
-    def _load(self, config_dir: Path, config_file_name: str = CONFIG_FILE_NAME, verbose: bool = False) -> AppConfiguration:
+    def _load(
+        self,
+        config_dir: Path,
+        config_file_name: str = CONFIG_FILE_NAME,
+        verbose: bool = False
+    ) -> AppConfiguration:
         config_path = config_dir.joinpath(config_file_name)
         return yaml.load(config_path, verbose).match(
             ok = self._merge_config,
-            err = lambda _ : self
+            err = lambda _: self
         )
 
 
