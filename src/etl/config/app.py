@@ -59,7 +59,7 @@ class AppConfiguration:
 
 
     @staticmethod
-    def load(config_option: Optional[str]=None, verbose: bool=False) -> AppConfiguration:
+    def load(config_option: Optional[str] = None, verbose: bool = False) -> AppConfiguration:
         load_dotenv()
         return AppConfiguration()\
             ._load_from_home(verbose)\
@@ -74,20 +74,20 @@ class AppConfiguration:
     # private
 
     def _load_from_home(self, verbose: bool) -> AppConfiguration:
-        return self._load(Path.home(), verbose=verbose)
+        return self._load(Path.home(), verbose = verbose)
 
 
     def _load_from_dir(self, config_path: Path, verbose: bool) -> AppConfiguration:
-        return self._load(config_path, verbose=verbose) if config_path else self
+        return self._load(config_path, verbose = verbose) if config_path else self
 
 
     def _load_from_env(self, env_var: str, verbose: bool) -> AppConfiguration:
         config_dir = os.getenv(env_var)
-        return self._load(Path(config_dir), verbose=verbose) if config_dir else self
+        return self._load(Path(config_dir), verbose = verbose) if config_dir else self
 
 
     def _load_from_option(self, option: Optional[str], verbose: bool) -> AppConfiguration:
-        return self._load(Path(option), verbose=verbose) if option else self
+        return self._load(Path(option), verbose = verbose) if option else self
 
 
     def _load_env_config(self, config_path: Path, verbose: bool) -> AppConfiguration:
@@ -101,7 +101,7 @@ class AppConfiguration:
         return self
 
 
-    def _load(self, config_dir: Path, config_file_name: str=CONFIG_FILE_NAME, verbose: bool=False) -> AppConfiguration:
+    def _load(self, config_dir: Path, config_file_name: str = CONFIG_FILE_NAME, verbose: bool = False) -> AppConfiguration:
         config_path = config_dir.joinpath(config_file_name)
         return yaml.load(config_path, verbose).match(
             ok = self._merge_config,

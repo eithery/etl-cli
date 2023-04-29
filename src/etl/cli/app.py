@@ -16,15 +16,15 @@ class App(click.Group):
 
     def main(self, *args: Any, **kwargs: Any) -> None:
         try:
-            super().main(*args, standalone_mode=False, **kwargs)
+            super().main(*args, standalone_mode = False, **kwargs)
         except click.ClickException as e:
             cli.error(str(e))
             sys.exit(e.exit_code)
         except click.exceptions.Abort:
-            cli.error('Aborted!', prefix=None)
+            cli.error('Aborted!', prefix = None)
             sys.exit(1)
 
 
     def format_help(self, ctx: click.Context, formatter: click.HelpFormatter) -> None:
-        click.secho(f'{cli.APP_DISPLAY_NAME}, version {cli.__version__}\n', fg='bright_cyan')
+        click.secho(f'{cli.APP_DISPLAY_NAME}, version {cli.__version__}\n', fg = 'bright_cyan')
         super().format_help(ctx, formatter)

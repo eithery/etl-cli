@@ -17,15 +17,15 @@ def describe_result():
 
     @pytest.fixture
     def error_result():
-        return Result(error=SOME_ERROR)
+        return Result(error = SOME_ERROR)
 
 
     def it_accepts_a_value_meaning_success_result():
-        expect(Result(value=SOME_VALUE).is_ok).to(be_true)
+        expect(Result(value = SOME_VALUE).is_ok).to(be_true)
 
 
     def it_accepts_an_error_argument_for_error_result():
-        expect(Result(error=SOME_ERROR).is_error).to(be_true)
+        expect(Result(error = SOME_ERROR).is_error).to(be_true)
 
 
     def it_accepts_an_error_instance_as_error_result():
@@ -33,7 +33,7 @@ def describe_result():
 
 
     def it_may_accept_any_error_type():
-        expect(Result(error=ERROR_MESSAGE).is_error).to(be_true)
+        expect(Result(error = ERROR_MESSAGE).is_error).to(be_true)
 
 
     def it_returns_unwrapped_value_for_success_result():

@@ -11,10 +11,10 @@ from etl.std.error_results import FileDoesNotExistError
 from etl.std.result import Result, Ok
 
 
-def load(file_path: Path, verbose: bool=False) -> Result[AppConfigSettings]:
+def load(file_path: Path, verbose: bool = False) -> Result[AppConfigSettings]:
     if file_path.is_file():
         with open(file_path) as infile:
-            settings: AppConfigSettings = yaml.load(infile, Loader=yaml.FullLoader)
+            settings: AppConfigSettings = yaml.load(infile, Loader = yaml.FullLoader)
             if verbose:
                 cli.echo(f"'{file_path.absolute()}' LOADED")
             return Ok(settings)

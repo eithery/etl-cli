@@ -11,7 +11,12 @@ from etl.std.result import Result, Ok
 from etl.models.file_parsing_result import FileParsingResult
 
 
-def run(files: tuple[str, ...], template: str, config_dir: Optional[str]=None, verbose: bool=False) -> Result[None]:
+def run(
+    files: tuple[str, ...],
+    template: str,
+    config_dir: Optional[str] = None,
+    verbose: bool = False
+) -> Result[None]:
     if verbose:
         cli.echo(f'Current environment: {etl.current_environment()}')
         cli.echo('Load configuration:')
@@ -19,12 +24,12 @@ def run(files: tuple[str, ...], template: str, config_dir: Optional[str]=None, v
     result = parse_file(template, config)
     if result:
         if result.has_errors:
-            cli.warning(f"File '{result.file_name}' has been loaded with errors", prefix=None, prepend_line=True)
-            cli.warning(_build_stats_message(result), prefix=None)
+            cli.warning(f"File '{result.file_name}' has been loaded with errors", prefix = None, prepend_line = True)
+            cli.warning(_build_stats_message(result), prefix = None)
         else:
             cli.success(f"File '{result.file_name}' has been loaded successfully")
             if result.has_warnings:
-                cli.warning(f'Total {result.warnings_count} warnings detected', prefix=None)
+                cli.warning(f'Total {result.warnings_count} warnings detected', prefix = None)
     return Ok()
 
 

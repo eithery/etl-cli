@@ -20,7 +20,7 @@ def describe_error():
 
     @pytest.fixture
     def complex_error() -> Error:
-        return Error(ERROR_MESSAGE, code=ERROR_CODE, description=ERROR_DESCRIPTION)
+        return Error(ERROR_MESSAGE, code = ERROR_CODE, description = ERROR_DESCRIPTION)
 
 
     def it_contains_error_message(simple_error: Error):
