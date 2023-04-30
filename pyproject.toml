@@ -28,11 +28,7 @@ pyyaml = "~6.0"
 sqlalchemy = "~1.4"
 
 [tool.poetry.group.test.dependencies]
-bandit = "~1.7"
 expects = "~0.9"
-flake8 = "~6.0"
-flake8-bugbear = "~23.3"
-mypy = "~1.2"
 pytest = "~7.2"
 pytest-cov = "~4.0"
 pytest-describe = "~2.0"
