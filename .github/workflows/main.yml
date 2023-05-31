@@ -1,4 +1,4 @@
-name: ETL Toolbox CI
+name: ETL Toolkit CI
 on:
   - push
 
@@ -84,3 +84,59 @@ jobs:
 
       - name: Run pytest
         run: python -m tox -e test
+
+  build:
+    name: Build
+    if: startsWith(github.event.ref, 'refs/tags/v')
+    needs:
+      - type-check
+      - lint
+      - security-check
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Upgrade core packages
+        run: python -m pip install --upgrade pip setuptools wheel
+
+      - name: Install Poetry
+        run: python -m pip install poetry
+
+      - name: Install dependencies
+        run: python -m poetry install
+
+      - name: Build wheels
+        run: python -m poetry build
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: etl-toolkit-dist
+          path: ./dist/
+
+  publish:
+    name: Publish
+    if: startsWith(github.event.ref, 'refs/tags/v')
+    needs:
+      - type-check
+      - lint
+      - security-check
+      - test
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: etl-toolkit-dist
+          path: ./dist/
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
