@@ -12,9 +12,9 @@ _ERROR_COLOR = 'red'
 _WARNING_COLOR = 'yellow'
 _SUCCESS_COLOR = 'green'
 
-APP_DISPLAY_NAME = 'ETL CLI Toolbox'
+APP_DISPLAY_NAME = 'ETL CLI Toolkit'
 
-__version__ = importlib.metadata.version('etl-cli')
+__version__ = importlib.metadata.version('etl-toolkit')
 
 
 def error(message: str, prefix: Optional[str] = 'Error:', prepend_line: bool = True) -> None:
