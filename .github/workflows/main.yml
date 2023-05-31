@@ -61,7 +61,7 @@ jobs:
         run: python -m tox -e sec
 
   test:
-    name: Tests on ${{ matrix.os }}
+    name: Tests (${{ matrix.os }}, Python ${{ matrix.python.version }})
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
