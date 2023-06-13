@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "etl-toolkit"
-version = "0.0.1"
+version = "0.0.2"
 description = "ETL CLI Toolkit. Performs common ETL tasks for standard industry and custom files in various formats."
 license = "MIT"
 authors = ["eithery <eithery.pro@gmail.com>"]
